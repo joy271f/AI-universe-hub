@@ -25,7 +25,7 @@ const displayUniverseAPI = (datas, dataLimits) => {
         const features = data.features;
         let featureContainer = '';
             features.forEach(feature => {
-            featureContainer += `<ul><li>${feature}</li></ul>`;
+            featureContainer += `<ul><li class="lh-1">${feature}</li></ul>`;
         })
 
         // dynamic Card create
@@ -33,9 +33,9 @@ const displayUniverseAPI = (datas, dataLimits) => {
         toolsDiv.classList.add('col');
         toolsDiv.innerHTML = `
         <div class="card h-100">
-            <img src="${data.image}" class="card-img-top" alt="...">
+            <img src="${data.image}" class="card-img-top" style="height:32vh;" alt="...">
         <div class="card-body">
-            <h5 class="card-title fw-bold">Features</h5>
+            <h5 class="card-title">Features</h5>
             <p class="card-text"><small>${featureContainer}</small></p>
         </div>
         <div class="card-footer d-flex justify-content-between align-items-center">
@@ -44,7 +44,7 @@ const displayUniverseAPI = (datas, dataLimits) => {
                 <small class="text-muted d-block"><i class="fa-solid fa-calendar-days"></i> ${data.published_in}</small>
             </div>
             <div>
-                <button class="btn btn-danger text-white rounded-circle"><i class="fa-solid fa-arrow-right"></i></button>
+                <button onclick="ShowDetailsBtn('${data.id}')" class="btn btn-danger text-white rounded-circle" data-bs-toggle="modal" data-bs-target="#showDetailsModal"><i class="fa-solid fa-arrow-right"></i></button>
             </div>
         </div>
         
@@ -73,6 +73,54 @@ document.getElementById('load-all-data').addEventListener('click', function(){
 // ---------------------***----------------------------
 
 
+
+// ----------------------Start--------------------------------***
+// show Details button
+const ShowDetailsBtn = async id => {
+    const url = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
+    const res = await fetch(url)
+    const data = await res.json()
+    displayCardDetails(data.data);
+} 
+
+// display card details
+const displayCardDetails = data => {
+    //  console.log(data);
+   /*  const modalBody = document.getElementById('modalBody');
+    modalBody.innerHTML = `
+    
+    
+    
+    `;
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+// ------------------------end-------------------------------***
+
+
 // loader Section
 const toggleSpinner = (isLoading) => {
     const loaderSection = document.getElementById("loader");
@@ -82,6 +130,9 @@ const toggleSpinner = (isLoading) => {
         loaderSection.classList.add("d-none");
       }
 }
+// ---------------****----------------------------------
+
+
 
 
 loadUniverseAPI(' ');
