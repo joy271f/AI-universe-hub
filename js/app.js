@@ -85,14 +85,41 @@ const ShowDetailsBtn = async id => {
 
 // display card details
 const displayCardDetails = data => {
-    //  console.log(data);
-   /*  const modalBody = document.getElementById('modalBody');
+     console.log(data);
+    const modalBody = document.getElementById('modalBody');
     modalBody.innerHTML = `
     
+    <!-- modal main div start -->
+                <div id="modal-container" class="container row row-cols-1 row-cols-md-3 g-4">
+                    <!-- modal first div -->
+                    <div class="col col-md-6 border border-danger bg-danger bg-opacity-10">
+                        <h5 class="pe-3 ps-3 mt-2"><small>${data.description}</small></h5>
+                        
+                        <div class="d-flex justify-content-around align-items-center mt-4">
+                            <div style="height: 10vh;" class="bg-light w-25 rounded text-center"><small>hello </small></div>
+                            <div style="height: 10vh;" class="bg-light w-25 rounded text-center"><small>hello</small></div>
+                            <div style="height: 10vh;" class="bg-light w-25 rounded text-center"><small>hello</small></div>
+                        </div>
+
+                        <div class="d-flex justify-content-evenly align-items-center mt-4">
+                            <div class="w-25 rounded"><small>hello</small></div>
+                            <div class="w-25 rounded"><small>hello</small></div>
+                        </div>
+
+                    </div>
+
+                    <!-- modal second div -->
+                    <div class="col col-md-6 p-2 text-center">
+                        <img class="img-fluid mb-2" src="${data.image_link[0]}" alt="">
+                        <h5><small>${data.input_output_examples[0].input}</small></h5>
+                        <p><small class="p-3">${data.input_output_examples[0].output}</small></p>
+                    </div>
+                </div>
+                <!-- modal main div end -->
     
     
     `;
- */
+
 
 
 
