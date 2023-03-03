@@ -1,21 +1,33 @@
-const loadUniverseAPI = async () => {
+const loadUniverseAPI = async (dataLimits) => {
     const res = await fetch(`https://openapi.programming-hero.com/api/ai/tools`);
     const data = await res.json();
-    displayUniverseAPI(data.data.tools);
+    displayUniverseAPI(data.data.tools, dataLimits);
 }
 
 
-const displayUniverseAPI = data => {
+const displayUniverseAPI = (datas, dataLimits) => {
     const toolsContainer = document.getElementById('tools-container');
-    data = data.slice(0, 6);
+    toolsContainer.innerText = "";
+    
+    // all data show function
+    const seeMore = document.getElementById("see-more");
+    if (dataLimits && datas.length > 6){
+        datas = datas.slice(0, 6);
+        seeMore.classList.remove("d-none");
+    }else{
+        seeMore.classList.add("d-none");
+    }
 
     // loop for single object access
-    data.forEach(data => {
-        // console.log(data.features)
+    datas.forEach(data => {
+        //nested featureContainer loop
+        const features = data.features;
+        let featureContainer = '';
+            features.forEach(feature => {
+            featureContainer += `<ul><li>${feature}</li></ul>`;
+        })
 
-        // Show Features Loop
-        
-
+        // dynamic Card create
         const toolsDiv = document.createElement('div');
         toolsDiv.classList.add('col');
         toolsDiv.innerHTML = `
@@ -23,7 +35,7 @@ const displayUniverseAPI = data => {
             <img src="${data.image}" class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title fw-bold">Features</h5>
-            <p class="card-text"><small>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</small></p>
+            <p class="card-text"><small>${featureContainer}</small></p>
         </div>
         <div class="card-footer d-flex justify-content-between align-items-center">
             <div>
@@ -41,4 +53,23 @@ const displayUniverseAPI = data => {
     });
 };
 
-loadUniverseAPI();
+
+
+
+
+// see more function
+const seeMore = (dataLimits) => {
+    loadUniverseAPI(dataLimits);
+};
+
+
+// load all data by seeMore btn
+document.getElementById('load-all-data').addEventListener('click', function(){
+    seeMore();
+});
+
+
+
+
+loadUniverseAPI(' ');
+
