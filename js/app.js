@@ -18,6 +18,7 @@ const displayUniverseAPI = (datas, dataLimits) => {
         seeMore.classList.add("d-none");
     }
 
+//------------------------****--------------------------------
     // loop for single object access
     datas.forEach(data => {
         //nested featureContainer loop
@@ -51,24 +52,36 @@ const displayUniverseAPI = (datas, dataLimits) => {
 
         toolsContainer.appendChild(toolsDiv);
     });
+    toggleSpinner(false);
 };
+//------------------------****--------------------------------
 
 
 
-
-
+// ---------------------***----------------------------
 // see more function
-const seeMore = (dataLimits) => {
+const seeMoreBtn = (dataLimits) => {
+    toggleSpinner(true);
     loadUniverseAPI(dataLimits);
 };
 
 
 // load all data by seeMore btn
 document.getElementById('load-all-data').addEventListener('click', function(){
-    seeMore();
+    seeMoreBtn();
 });
+// ---------------------***----------------------------
 
 
+// loader Section
+const toggleSpinner = (isLoading) => {
+    const loaderSection = document.getElementById("loader");
+    if (isLoading) {
+        loaderSection.classList.remove("d-none");
+      } else {
+        loaderSection.classList.add("d-none");
+      }
+}
 
 
 loadUniverseAPI(' ');
