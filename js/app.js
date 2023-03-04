@@ -85,7 +85,28 @@ const ShowDetailsBtn = async id => {
 
 // display card details
 const displayCardDetails = data => {
-     console.log(data);
+    //  console.log(data);
+
+
+    // Dynamic pricing  section
+    let planContainer = '';
+    let priceContainer = '';
+    const pricingContainer = data.pricing;
+    pricingContainer.forEach(values => {
+        planContainer += `<div style="height: 15vh;" class="bg-light w-25 rounded text-center text-success">
+        <div class="mt-4">
+        <small>${values.price}</small></div>
+        <h6 class="mt-2">${values.plan}</h6>
+        </div>
+        `
+    })
+
+
+
+
+
+
+    //  dynamic modal
     const modalBody = document.getElementById('modalBody');
     modalBody.innerHTML = `
     
@@ -96,14 +117,19 @@ const displayCardDetails = data => {
                         <h5 class="pe-3 ps-3 mt-2"><small>${data.description}</small></h5>
                         
                         <div class="d-flex justify-content-around align-items-center mt-4">
-                            <div style="height: 10vh;" class="bg-light w-25 rounded text-center"><small>hello </small></div>
-                            <div style="height: 10vh;" class="bg-light w-25 rounded text-center"><small>hello</small></div>
-                            <div style="height: 10vh;" class="bg-light w-25 rounded text-center"><small>hello</small></div>
+                            ${planContainer}
                         </div>
 
-                        <div class="d-flex justify-content-evenly align-items-center mt-4">
-                            <div class="w-25 rounded"><small>hello</small></div>
-                            <div class="w-25 rounded"><small>hello</small></div>
+                        
+                        <div style="font-size: 12px;" class="row row-cols-1 row-cols-md-3 g-4">
+                            <div class="col col-md-6 rounded">
+                                <h4 class="mt-4"><small>Features</small></h4>
+                                <small>${featureNameContainer}</small>
+                            </div>
+                            <div class="col col-md-6 rounded">
+                                <h4 class="mt-4"><small>Integrations</small></h4>
+                                <small>${modalIntegration}</small>
+                            </div>
                         </div>
 
                     </div>
@@ -119,26 +145,6 @@ const displayCardDetails = data => {
     
     
     `;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
 
