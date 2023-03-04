@@ -86,7 +86,6 @@ const ShowDetailsBtn = async id => {
 
 // display card details (modal data display)
 const displayCardDetails = data => {
-    console.log(data.accuracy)
 
     // Dynamic pricing  section
     let planContainer = '';
@@ -94,8 +93,8 @@ const displayCardDetails = data => {
     pricingContainer.forEach(values => {
         planContainer += `<div class="col col-md-3 mx-auto bg-light rounded text-center text-success">
         <div class="mt-4">
-        <small>${values?.price ? values?.price : 'No found'}</small></div>
-        <h6 class="mt-2">${values?.plan}</h6>
+        <small>${values?.price ? values?.price : 'No found price'}</small></div>
+        <h6 class="mt-2">${values?.plan ? values?.plan : 'No found plan'}</h6>
         </div>
         `
     })
@@ -107,7 +106,7 @@ const displayCardDetails = data => {
     for (const feature in features) {
         if (Object.hasOwnProperty.call(features, feature)) {
             let element = features[feature];
-            featureNameContainer += `<ul><li class="mt-4" style="line-height: .5px;">${element.feature_name}</li></ul>`;
+            featureNameContainer += `<li class="mt-4" style="line-height: .5px;">${element?.feature_name}</li>`;
         }
     }
 
@@ -115,7 +114,7 @@ const displayCardDetails = data => {
     const modalIntegrations = data.integrations;
     let modalIntegration = '';
     modalIntegrations.forEach(element => {
-        modalIntegration += `<ul><li class="mt-4" style="line-height: .5px;">${element}</li></ul>`;
+        modalIntegration += `<li class="mt-4" style="line-height: .5px;">${element}</li>`;
     });
 
 
@@ -129,7 +128,7 @@ const displayCardDetails = data => {
                 <div id="modal-container" class="row row-cols-1 row-cols-md-3 g-4">
                     <!-- modal first div -->
                     <div class="col col-md-6 border border-danger bg-danger bg-opacity-10">
-                        <h5 class="pe-3 ps-3 mt-2 fw-bold"><small>${data.description}</small></h5>
+                        <h5 class="pe-3 ps-3 mt-2 fw-bold"><small>${data.description ? data.description : 'Not found description'}</small></h5>
                         
                         <div class="row row-cols-1 row-cols-md-3 mt-4">
                             ${planContainer ? planContainer : 'No found'}
@@ -139,11 +138,11 @@ const displayCardDetails = data => {
                         <div style="font-size: 12px;" class="row row-cols-1 row-cols-md-3 g-4">
                             <div class="col col-md-6 rounded">
                                 <h4 class="mt-4"><small>Features</small></h4>
-                                <small>${featureNameContainer}</small>
+                                <ul>${featureNameContainer ? featureNameContainer : 'Not found features'}</ul>
                             </div>
                             <div class="col col-md-6 rounded">
                                 <h4 class="mt-4"><small>Integrations</small></h4>
-                                <small>${modalIntegration}</small>
+                                <ul>${modalIntegration ? modalIntegration : 'Not found integration'}</ul>
                             </div>
                         </div>
 
@@ -152,20 +151,20 @@ const displayCardDetails = data => {
                     <!-- modal second div -->
                     <div class="col col-md-6 text-center position-relative">
                         <div class="">
-                            <img class="img-fluid mb-2" src="${data.image_link[0]}" alt="">
+                            <img class="img-fluid mb-2" src="${data?.image_link[0] ? data?.image_link[0] : 'image not found'}" alt="">
                         </div>
                         <div class="position-absolute top-0 end-0">
-                            <span class="badge text-bg-danger fs-6">${data.accuracy.score ? data.accuracy.score : 'No'} accuracy</span>
+                            <span class="badge text-bg-danger fs-6">${data?.accuracy?.score ? data?.accuracy?.score : 'No'} accuracy</span>
                         </div>
-                        <h5><small>${data.input_output_examples[0].input}</small></h5>
-                        <p><small class="p-3">${data.input_output_examples[0].output}</small></p>
+                        <h5><small>${data?.input_output_examples[0]?.input ? data?.input_output_examples[0]?.input : 'Not found'}</small></h5>
+                        <p><small class="p-3">${data.input_output_examples[0].output ? data.input_output_examples[0].output : 'Not found'}</small></p>
                     </div>
                 </div>
-                <!-- modal main div end -->
+                <!-- modal main div end --> 
     
     
     `;
-
+    
 }
 
 
