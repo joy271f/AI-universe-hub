@@ -1,15 +1,16 @@
+// main fetch
 const loadUniverseAPI = async (dataLimits) => {
     const res = await fetch(`https://openapi.programming-hero.com/api/ai/tools`);
     const data = await res.json();
     displayUniverseAPI(data.data.tools, dataLimits);
 }
 
-
+// main fetch display
 const displayUniverseAPI = (datas, dataLimits) => {
     const toolsContainer = document.getElementById('tools-container');
     toolsContainer.innerText = "";
     
-    // all data show function
+    // See more btn all data show function
     const seeMore = document.getElementById("see-more");
     if (dataLimits && datas.length > 6){
         datas = datas.slice(0, 6);
@@ -25,7 +26,7 @@ const displayUniverseAPI = (datas, dataLimits) => {
         const features = data.features;
         let featureContainer = '';
             features.forEach(feature => {
-            featureContainer += `<ul><li class="lh-1">${feature}</li></ul>`;
+            featureContainer += `<li>${feature}</li>`;
         })
 
         // dynamic Card create
@@ -33,18 +34,18 @@ const displayUniverseAPI = (datas, dataLimits) => {
         toolsDiv.classList.add('col');
         toolsDiv.innerHTML = `
         <div class="card h-100">
-            <img src="${data.image}" class="card-img-top" style="height:32vh;" alt="...">
+            <img src="${data?.image ? data?.image : 'Not found image'}" class="card-img-top" style="height:32vh;" alt="...">
         <div class="card-body">
             <h5 class="card-title">Features</h5>
-            <p class="card-text"><small>${featureContainer}</small></p>
+            <p class="card-text"><small><ul>${featureContainer ? featureContainer : 'Not found features'}</ul></small></p>
         </div>
         <div class="card-footer d-flex justify-content-between align-items-center">
             <div>
-                <h5 class="card-title fw-bold">${data.name}</h5>
-                <small class="text-muted d-block"><i class="fa-solid fa-calendar-days"></i> ${data.published_in}</small>
+                <h5 class="card-title fw-bold">${data?.name ? data?.name : 'Not found name'}</h5>
+                <small class="text-muted d-block"><i class="fa-solid fa-calendar-days"></i> ${data?.published_in ? data?.published_in : 'Not found date'}</small>
             </div>
             <div>
-                <button onclick="ShowDetailsBtn('${data.id}')" class="btn btn-danger text-white rounded-circle" data-bs-toggle="modal" data-bs-target="#showDetailsModal"><i class="fa-solid fa-arrow-right"></i></button>
+                <button onclick="ShowDetailsBtn('${data?.id ? data?.id : 'Not found button'}')" class="btn btn-danger text-white rounded-circle" data-bs-toggle="modal" data-bs-target="#showDetailsModal"><i class="fa-solid fa-arrow-right"></i></button>
             </div>
         </div>
         
@@ -83,25 +84,39 @@ const ShowDetailsBtn = async id => {
     displayCardDetails(data.data);
 } 
 
-// display card details
+// display card details (modal data display)
 const displayCardDetails = data => {
-    //  console.log(data);
-
+    console.log(data.accuracy)
 
     // Dynamic pricing  section
     let planContainer = '';
-    let priceContainer = '';
     const pricingContainer = data.pricing;
     pricingContainer.forEach(values => {
-        planContainer += `<div style="height: 15vh;" class="bg-light w-25 rounded text-center text-success">
+        planContainer += `<div class="col col-md-3 mx-auto bg-light rounded text-center text-success">
         <div class="mt-4">
-        <small>${values.price}</small></div>
-        <h6 class="mt-2">${values.plan}</h6>
+        <small>${values?.price ? values?.price : 'No found'}</small></div>
+        <h6 class="mt-2">${values?.plan}</h6>
         </div>
         `
     })
 
 
+    // modal feature section
+    const features = data.features;
+    let featureNameContainer = '';
+    for (const feature in features) {
+        if (Object.hasOwnProperty.call(features, feature)) {
+            let element = features[feature];
+            featureNameContainer += `<ul><li class="mt-4" style="line-height: .5px;">${element.feature_name}</li></ul>`;
+        }
+    }
+
+    // modal Integrations section
+    const modalIntegrations = data.integrations;
+    let modalIntegration = '';
+    modalIntegrations.forEach(element => {
+        modalIntegration += `<ul><li class="mt-4" style="line-height: .5px;">${element}</li></ul>`;
+    });
 
 
 
@@ -111,13 +126,13 @@ const displayCardDetails = data => {
     modalBody.innerHTML = `
     
     <!-- modal main div start -->
-                <div id="modal-container" class="container row row-cols-1 row-cols-md-3 g-4">
+                <div id="modal-container" class="row row-cols-1 row-cols-md-3 g-4">
                     <!-- modal first div -->
                     <div class="col col-md-6 border border-danger bg-danger bg-opacity-10">
-                        <h5 class="pe-3 ps-3 mt-2"><small>${data.description}</small></h5>
+                        <h5 class="pe-3 ps-3 mt-2 fw-bold"><small>${data.description}</small></h5>
                         
-                        <div class="d-flex justify-content-around align-items-center mt-4">
-                            ${planContainer}
+                        <div class="row row-cols-1 row-cols-md-3 mt-4">
+                            ${planContainer ? planContainer : 'No found'}
                         </div>
 
                         
@@ -135,8 +150,13 @@ const displayCardDetails = data => {
                     </div>
 
                     <!-- modal second div -->
-                    <div class="col col-md-6 p-2 text-center">
-                        <img class="img-fluid mb-2" src="${data.image_link[0]}" alt="">
+                    <div class="col col-md-6 text-center position-relative">
+                        <div class="">
+                            <img class="img-fluid mb-2" src="${data.image_link[0]}" alt="">
+                        </div>
+                        <div class="position-absolute top-0 end-0">
+                            <span class="badge text-bg-danger fs-6">${data.accuracy.score ? data.accuracy.score : 'No'} accuracy</span>
+                        </div>
                         <h5><small>${data.input_output_examples[0].input}</small></h5>
                         <p><small class="p-3">${data.input_output_examples[0].output}</small></p>
                     </div>
