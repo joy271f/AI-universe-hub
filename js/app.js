@@ -23,9 +23,8 @@ const displayUniverseAPI = (datas, dataLimits) => {
     // loop for single object access
     datas.forEach(data => {
         //nested featureContainer loop
-        const features = data.features;
         let featureContainer = '';
-            features.forEach(feature => {
+        data.features?.forEach(feature => {
             featureContainer += `<li>${feature}</li>`;
         })
 
@@ -34,18 +33,18 @@ const displayUniverseAPI = (datas, dataLimits) => {
         toolsDiv.classList.add('col');
         toolsDiv.innerHTML = `
         <div class="card h-100">
-            <img src="${data?.image ? data?.image : 'Not found image'}" class="card-img-top" style="height:32vh;" alt="...">
+            <img src="${data.image ? data.image : 'Not found image'}" class="card-img-top" style="height:32vh;" alt="...">
         <div class="card-body">
             <h5 class="card-title">Features</h5>
             <p class="card-text"><small><ul>${featureContainer ? featureContainer : 'Not found features'}</ul></small></p>
         </div>
         <div class="card-footer d-flex justify-content-between align-items-center">
             <div>
-                <h5 class="card-title fw-bold">${data?.name ? data?.name : 'Not found name'}</h5>
-                <small class="text-muted d-block"><i class="fa-solid fa-calendar-days"></i> ${data?.published_in ? data?.published_in : 'Not found date'}</small>
+                <h5 class="card-title fw-bold">${data.name ? data.name : 'Not found name'}</h5>
+                <small class="text-muted d-block"><i class="fa-solid fa-calendar-days"></i> ${data.published_in ? data.published_in : 'Not found date'}</small>
             </div>
             <div>
-                <button onclick="ShowDetailsBtn('${data?.id ? data?.id : 'Not found button'}')" class="btn btn-danger text-white rounded-circle" data-bs-toggle="modal" data-bs-target="#showDetailsModal"><i class="fa-solid fa-arrow-right"></i></button>
+                <button onclick="ShowDetailsBtn('${data.id ? data.id : 'Not found button'}')" class="btn btn-danger text-white rounded-circle" data-bs-toggle="modal" data-bs-target="#showDetailsModal"><i class="fa-solid fa-arrow-right"></i></button>
             </div>
         </div>
         
@@ -86,15 +85,15 @@ const ShowDetailsBtn = async id => {
 
 // display card details (modal data display)
 const displayCardDetails = data => {
+    console.log(data)
 
     // Dynamic pricing  section
     let planContainer = '';
-    const pricingContainer = data.pricing;
-    pricingContainer.forEach(values => {
+    data.pricing?.forEach(values => {
         planContainer += `<div class="col col-md-3 mx-auto bg-light rounded text-center text-success">
         <div class="mt-4">
-        <small>${values?.price ? values?.price : 'No found price'}</small></div>
-        <h6 class="mt-2">${values?.plan ? values?.plan : 'No found plan'}</h6>
+        <small>${values.price ? values.price : 'No found price'}</small></div>
+        <h6 class="mt-2">${values.plan ? values.plan : 'No found plan'}</h6>
         </div>
         `
     })
@@ -106,14 +105,13 @@ const displayCardDetails = data => {
     for (const feature in features) {
         if (Object.hasOwnProperty.call(features, feature)) {
             let element = features[feature];
-            featureNameContainer += `<li class="mt-4" style="line-height: .5px;">${element?.feature_name}</li>`;
+            featureNameContainer += `<li class="mt-4" style="line-height: .5px;">${element.feature_name}</li>`;
         }
     }
 
     // modal Integrations section
-    const modalIntegrations = data.integrations;
     let modalIntegration = '';
-    modalIntegrations.forEach(element => {
+    data.integrations?.forEach(element => {
         modalIntegration += `<li class="mt-4" style="line-height: .5px;">${element}</li>`;
     });
 
@@ -138,11 +136,11 @@ const displayCardDetails = data => {
                         <div style="font-size: 12px;" class="row row-cols-1 row-cols-md-3 g-4">
                             <div class="col col-md-6 rounded">
                                 <h4 class="mt-4"><small>Features</small></h4>
-                                <ul>${featureNameContainer ? featureNameContainer : 'Not found features'}</ul>
+                                <ul>${featureNameContainer ? featureNameContainer : 'No data found'}</ul>
                             </div>
                             <div class="col col-md-6 rounded">
                                 <h4 class="mt-4"><small>Integrations</small></h4>
-                                <ul>${modalIntegration ? modalIntegration : 'Not found integration'}</ul>
+                                <ul>${modalIntegration ? modalIntegration : 'No data found'}</ul>
                             </div>
                         </div>
 
@@ -151,20 +149,20 @@ const displayCardDetails = data => {
                     <!-- modal second div -->
                     <div class="col col-md-6 text-center position-relative">
                         <div class="">
-                            <img class="img-fluid mb-2" src="${data?.image_link[0] ? data?.image_link[0] : 'image not found'}" alt="">
+                            <img class="img-fluid mb-2" src="${data.image_link[0] ? data.image_link[0] : 'image not found'}" alt="">
                         </div>
                         <div class="position-absolute top-0 end-0">
-                            <span class="badge text-bg-danger fs-6">${data?.accuracy?.score ? data?.accuracy?.score : 'No'} accuracy</span>
+                            <span class="badge text-bg-danger fs-6">${data.accuracy?.score ? data.accuracy.score : 'No'} accuracy</span>
                         </div>
-                        <h5><small>${data?.input_output_examples[0]?.input ? data?.input_output_examples[0]?.input : 'Not found'}</small></h5>
-                        <p><small class="p-3">${data.input_output_examples[0].output ? data.input_output_examples[0].output : 'Not found'}</small></p>
+                        <h5><small>${data.input_output_examples ? data.input_output_examples[0].input : 'Not found title'}</small></h5>
+                        <p><small class="p-3">${data.input_output_examples ? data.input_output_examples[0].output : 'No! Not Yet! Take a break!!!'}</small></p>
                     </div>
                 </div>
                 <!-- modal main div end --> 
     
     
     `;
-    
+
 }
 
 
