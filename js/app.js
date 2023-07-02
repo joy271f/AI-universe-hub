@@ -37,6 +37,8 @@ const loadUniverseAPI = async (dataLimits, sortby) => {
 const displayUniverseAPI = (datas, dataLimits, sortby) => {
   const toolsContainer = document.getElementById("tools-container");
   toolsContainer.innerText = "";
+  
+//   sort by date
   if (sortby) {
     datas = datas.sortBy(function (o) {
       return new Date(o.published_in);
@@ -246,4 +248,8 @@ const toggleSpinner = (isLoading) => {
 };
 // ---------------****----------------------------------
 
+
 loadUniverseAPI(6);
+
+
+
